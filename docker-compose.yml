@@ -1,0 +1,32 @@
+version: "1"
+services:
+#  app:
+#    build:
+#      dockerfile: dev.Dockerfile
+#      context: .
+#    environment:
+#      - TZ=Europe/Moscow
+#    volumes:
+#      - "./:/app"
+#    links:
+#      - postgres
+#    ports:
+#      - "3000:3000"
+
+  postgres:
+    image: postgres:latest
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=template
+      - POSTGRES_PASSWORD=template
+      - POSTGRES_DB=template
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:latest
+    volumes:
+      - ./redis:/data
+    ports:
+      - 6379:6379
