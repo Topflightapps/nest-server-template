@@ -22,7 +22,10 @@ module.exports = {
   },
   body_parser_limit: '1mb',
   jwt: {
-    jwt_secret: 'secret',
+    access_token_secret: 'secret',
+    refresh_token_secret: 'secret2',
+    access_token_expiration: '2h',
+    refresh_token_expiration: '1d',
     jwt_session: {
       session: false,
     },

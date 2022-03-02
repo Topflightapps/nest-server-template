@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
-
+import * as config from 'config';
+const JWT_CONSTANTS: any = config.get('jwt');
 @Injectable()
 export class AuthService {
   constructor(
@@ -21,10 +22,20 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async getUserTokens(user: any) {
     const payload = { email: user.email, id: user.id };
+    const accessToken = this.jwtService.sign(payload, {
+      secret : JWT_CONSTANTS.access_token_secret,
+      expiresIn: JWT_CONSTANTS.access_token_expiration
+    });
+    const refreshToken = this.jwtService.sign(payload, {
+      secret : JWT_CONSTANTS.refresh_token_secret,
+      expiresIn: JWT_CONSTANTS.refresh_token_expiration
+    });
+    await this.usersService.updateRefreshToken(refreshToken,user.id);
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken,
+      refreshToken
     };
   }
 }
