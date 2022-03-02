@@ -21,8 +21,8 @@ export class UsersController {
   @Post()
   async createUser(@Req() request: Request, @Res() response: Response): Promise<any> {
     try {
-      const user = await this.appService.createUser(request.body);
-      return response.status(HttpStatus.OK).send({
+      const {password, ...user} = await this.appService.createUser(request.body);
+      return response.status(HttpStatus.CREATED).send({
         message: "User added",
         user
       })

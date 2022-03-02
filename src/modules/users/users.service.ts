@@ -23,7 +23,7 @@ export class UsersService {
     return this.usersRepository.find();
   }
   findOne(email: string): Promise<Users> {
-    return this.usersRepository.findOne(email);
+    return this.usersRepository.findOne({email});
   }
   findById(id: string): Promise<Users> {
     return this.findById(id);
